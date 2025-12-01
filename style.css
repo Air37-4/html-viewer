@@ -187,24 +187,22 @@ input[type="file"] {
   gap: 0.65rem;
 }
 
-.scale-info {
+.scale-controls {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  font-size: 0.85rem;
-  color: #555;
-  text-align: right;
-}
-
-.scale-info strong {
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: flex-end;
   font-size: 0.95rem;
-  color: #111;
+  color: #333;
 }
 
-.scale-info small {
-  font-size: 0.75rem;
-  color: #777;
-  white-space: nowrap;
+.scale-controls select {
+  border: 1px solid #bbb;
+  border-radius: 0.6rem;
+  padding: 0.35rem 0.75rem;
+  background: #f9f9ff;
+  font-size: 0.95rem;
 }
 
 .viewer-frame {
@@ -214,11 +212,6 @@ input[type="file"] {
   overflow: auto;
   background: #fff;
   --viewer-scale: 1;
-  outline: none;
-}
-
-.viewer-frame:focus-visible {
-  box-shadow: 0 0 0 2px rgba(88, 88, 255, 0.3);
 }
 
 .viewer-frame iframe {
