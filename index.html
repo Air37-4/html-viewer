@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <h1>HTML Viewer</h1>
+      <p>Загрузите HTML-файл, чтобы просмотреть его прямо в браузере на iPhone.</p>
+    </header>
+
+    <section class="controls" aria-label="Выбор файлов">
+      <div class="picker-stack">
+        <label for="fileInput" class="file-label">Добавьте HTML и связанные файлы (CSS, JS, изображения)</label>
+        <input
+          id="fileInput"
+          type="file"
+          multiple
+          accept=".html,.htm,.css,.js,.mjs,.json,.svg,.txt,.png,.jpg,.jpeg,.gif,.webp,.avif,.ico,.mp3,.mp4,.mov,.m4v,.woff,.woff2,.ttf,.otf"
+        >
+        <div class="folder-picker" role="group" aria-label="Загрузка папки">
+          <span>Или выберите целую папку:</span>
+          <button type="button" id="folderPickerButton" class="folder-button">Выбрать папку</button>
+          <input
+            id="folderInput"
+            type="file"
+            class="visually-hidden"
+            multiple
+            webkitdirectory
+            mozdirectory
+            accept=".html,.htm,.css,.js,.mjs,.json,.svg,.txt,.png,.jpg,.jpeg,.gif,.webp,.avif,.ico,.mp3,.mp4,.mov,.m4v,.woff,.woff2,.ttf,.otf"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+        </div>
+      </div>
+      <p class="hint">
+        После выбора файлов коснитесь имени файла ниже, чтобы открыть его в просмотрщике.
+        Если страница использует анимации или внешние скрипты, добавьте их вместе с HTML или выделите папку целиком.
+      </p>
+    </section>
+
+    <section class="file-list" aria-live="polite">
+      <h2>Сохранённые файлы</h2>
+      <p class="hint list-hint">Файлы остаются на устройстве до удаления (кнопка × рядом с названием).</p>
+      <div id="fileButtons" class="file-buttons" role="list"></div>
+    </section>
+
+    <section class="viewer" aria-label="Просмотр HTML">
+      <div id="statusMessage" class="status" role="alert" aria-live="assertive"></div>
+      <iframe id="viewerFrame" title="Область просмотра выбранного HTML" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
