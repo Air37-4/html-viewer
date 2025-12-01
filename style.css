@@ -187,21 +187,24 @@ input[type="file"] {
   gap: 0.65rem;
 }
 
-.scale-label {
+.scale-info {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-  color: #444;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.85rem;
+  color: #555;
+  text-align: right;
 }
 
-.scale-label select {
-  border: 1px solid #bbb;
-  border-radius: 0.6rem;
-  padding: 0.35rem 0.75rem;
-  background: #f9f9ff;
-  font-size: 0.9rem;
+.scale-info strong {
+  font-size: 0.95rem;
+  color: #111;
+}
+
+.scale-info small {
+  font-size: 0.75rem;
+  color: #777;
+  white-space: nowrap;
 }
 
 .viewer-frame {
@@ -211,14 +214,19 @@ input[type="file"] {
   overflow: auto;
   background: #fff;
   --viewer-scale: 1;
+  outline: none;
+}
+
+.viewer-frame:focus-visible {
+  box-shadow: 0 0 0 2px rgba(88, 88, 255, 0.3);
 }
 
 .viewer-frame iframe {
-  width: calc(100% / var(--viewer-scale, 1));
-  min-height: calc(320px / var(--viewer-scale, 1));
+  width: 100%;
+  min-height: 320px;
   border: none;
   background: transparent;
-  transform-origin: top center;
+  transform-origin: top left;
   transform: scale(var(--viewer-scale, 1));
   transition: transform 0.2s ease;
 }
@@ -257,6 +265,6 @@ input[type="file"] {
   }
 
   .viewer-frame iframe {
-    min-height: calc(480px / var(--viewer-scale, 1));
+    min-height: 480px;
   }
 }

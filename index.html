@@ -53,17 +53,12 @@
     <section class="viewer" aria-label="Просмотр HTML">
       <div class="viewer-bar">
         <div id="statusMessage" class="status" role="alert" aria-live="assertive"></div>
-        <label for="viewerScale" class="scale-label">
-          <span>Режим экрана:</span>
-          <select id="viewerScale">
-            <option value="1">Без изменений</option>
-            <option value="0.9">Слегка уменьшить (90%)</option>
-            <option value="0.8">Сжать до 80%</option>
-            <option value="0.7">Сжать до 70%</option>
-          </select>
-        </label>
+        <div class="scale-info">
+          <strong id="scaleIndicator">Масштаб содержимого: 100%</strong>
+          <small>Прокрутите внутри области, чтобы уменьшать/увеличивать (10–100%).</small>
+        </div>
       </div>
-      <div class="viewer-frame">
+      <div class="viewer-frame" tabindex="0">
         <iframe id="viewerFrame" title="Область просмотра выбранного HTML" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
       </div>
     </section>

@@ -6,6 +6,9 @@
 
   const HTML_EXTENSIONS = new Set(['html', 'htm']);
   const TEXT_RESOURCE_EXTENSIONS = new Set(['css', 'js', 'mjs', 'json', 'svg', 'txt']);
+  const MIN_SCALE = 0.1;
+  const MAX_SCALE = 1;
+  const SCALE_STEP = 0.05;
 
   const fileInput = document.getElementById('fileInput');
   const folderInput = document.getElementById('folderInput');
@@ -14,7 +17,7 @@
   const statusMessage = document.getElementById('statusMessage');
   const viewerFrame = document.getElementById('viewerFrame');
   const viewerFrameWrapper = document.querySelector('.viewer-frame');
-  const viewerScaleSelect = document.getElementById('viewerScale');
+  const scaleIndicator = document.getElementById('scaleIndicator');
   const fileListSection = document.querySelector('.file-list');
   const frameSupportsSrcdoc = viewerFrame && 'srcdoc' in viewerFrame;
 
@@ -135,16 +138,25 @@
     }
   };
 
+  let currentScale = 1;
+
+  const clampScale = (value) => {
+    if (!Number.isFinite(value)) return 1;
+    if (value < MIN_SCALE) return MIN_SCALE;
+    if (value > MAX_SCALE) return MAX_SCALE;
+    return value;
+  };
+
   const applyScaleMode = (value) => {
-    const numeric = Number(value);
-    const safeValue = Number.isFinite(numeric) && numeric > 0 ? `${numeric}` : '1';
+    const numeric = clampScale(Number(value));
+    currentScale = numeric;
     if (viewerFrameWrapper) {
-      viewerFrameWrapper.style.setProperty('--viewer-scale', safeValue);
+      viewerFrameWrapper.style.setProperty('--viewer-scale', numeric);
     }
-    if (viewerScaleSelect && viewerScaleSelect.value !== safeValue) {
-      viewerScaleSelect.value = safeValue;
+    if (scaleIndicator) {
+      scaleIndicator.textContent = `Масштаб: ${Math.round(numeric * 100)}%`;
     }
-    return safeValue;
+    return `${numeric}`;
   };
 
   const renderInFrame = (html) => {
@@ -703,6 +715,17 @@
     }
   };
 
+  const handleScaleWheel = (event) => {
+    if (!viewerFrameWrapper) return;
+    if (!event.deltaY) return;
+    event.preventDefault();
+    const direction = event.deltaY > 0 ? -1 : 1;
+    const nextScale = clampScale(currentScale + direction * SCALE_STEP);
+    if (nextScale === currentScale) return;
+    const applied = applyScaleMode(nextScale);
+    persistScaleMode(applied);
+  };
+
   fileInput.addEventListener('change', (event) => {
     handleFilesSelected(event.target.files);
   });
@@ -717,15 +740,12 @@
     });
   }
 
+  if (viewerFrameWrapper) {
+    viewerFrameWrapper.addEventListener('wheel', handleScaleWheel, { passive: false });
+  }
+
   const savedScaleMode = loadScaleMode();
   applyScaleMode(savedScaleMode || '1');
-
-  if (viewerScaleSelect) {
-    viewerScaleSelect.addEventListener('change', (event) => {
-      const applied = applyScaleMode(event.target.value || '1');
-      persistScaleMode(applied);
-    });
-  }
 
   persistedResources = safeParseResources();
   persistedResources.forEach((resource) => registerResource(resource, { skipPersist: true }));
